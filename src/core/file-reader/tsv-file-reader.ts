@@ -1,55 +1,36 @@
-import { readFileSync } from 'node:fs';
 import { FileReaderInterface } from './file-reader.interface.js';
-import { Offer } from '../../types/offer.type.js';
-import { City } from '../../types/city.type.js';
-import { Housing } from '../../types/housing.type.js';
-import { Facility } from '../../types/facility.type.js';
-import { Coordinates } from '../../types/coordinates.type.js';
+import EventEmitter from 'node:events';
+import { createReadStream } from 'node:fs';
+import { READER_CHUNK_SIZE } from '../../constants/files.js';
 
-export class TSVFileReader implements FileReaderInterface {
-  private rawData = '';
 
+export class TSVFileReader extends EventEmitter implements FileReaderInterface {
   constructor(public filename: string) {
+    super();
   }
 
-  public read(): void {
-    this.rawData = readFileSync(this.filename, {encoding: 'utf8'});
-  }
+  public async read(): Promise<void> {
+    const stream = createReadStream(this.filename, {
+      highWaterMark: READER_CHUNK_SIZE,
+      encoding: 'utf-8',
+    });
 
-  public toArray(): Offer[] {
-    if (!this.rawData) {
-      return [];
+    let remainingData = '';
+    let nextLinePosition = -1;
+    let importedRowCount = 0;
+
+    for await (const chunk of stream) {
+      remainingData += chunk.toString();
+
+      while ((nextLinePosition = remainingData.indexOf('\n')) >= 0) {
+        const completeRow = remainingData.slice(0, nextLinePosition + 1);
+        remainingData = remainingData.slice(++nextLinePosition);
+        importedRowCount++;
+
+        this.emit('line', completeRow);
+      }
     }
 
-    return this.rawData
-      .split('\n')
-      .filter((row) => row.trim() !== '')
-      .map((line) => line.split('\t'))
-      .map(([title, description, publishDate, city, previewImage, images, isPremium, isFavourite, rating, housingType, roomsNumber, guestsNumber, price, facilities, authorId, commentsIds, coordinates]) => {
-        const commentsIdsParsed = commentsIds.split(';').filter((comment) => comment.length > 0);
-        const stringToBoolean = (s: string): boolean => s === 'true';
-        const coordinatesArray = coordinates.split(';').map((coordinate) => parseFloat(coordinate));
-        const coordinatesParsed: Coordinates = {latitude: coordinatesArray[0], longitude: coordinatesArray[1]};
-        return ({
-          title,
-          description,
-          publishDate: new Date(publishDate),
-          city: city as City,
-          previewImage,
-          images: images.split(';'),
-          isPremium: stringToBoolean(isPremium),
-          isFavourite: stringToBoolean(isFavourite),
-          rating: parseFloat(rating),
-          housingType: Housing[housingType as keyof typeof Housing],
-          roomsNumber: parseInt(roomsNumber, 10),
-          guestsNumber: parseInt(guestsNumber, 10),
-          price: parseFloat(price),
-          facilities: facilities.split(';').map((facility) => Facility[facility as keyof typeof Facility]),
-          authorId,
-          commentsIds: commentsIdsParsed,
-          commentsNumber: commentsIdsParsed.length,
-          coordinates: coordinatesParsed
-        });
-      });
+    this.emit('end', importedRowCount);
   }
 }

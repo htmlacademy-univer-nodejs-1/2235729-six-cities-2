@@ -1,0 +1,67 @@
+{
+  "api": {
+    "names": [
+      "Дом",
+      "Квартира",
+      "Однушка",
+      "Двушка"
+    ],
+    "descriptions": [
+      "Лучший дом",
+      "Худшая квартира",
+      "Лучшая однушка",
+      "Худшая двушка"
+    ],
+    "previewImages": [
+      "previewImage1.jpg",
+      "previewImage2.jpg",
+      "previewImage3.jpg",
+      "previewImage4.jpg"
+    ],
+    "propertyImages": [
+      "propertyImage1.jpg",
+      "propertyImage2.jpg",
+      "propertyImage3.jpg",
+      "propertyImage4.jpg"
+    ],
+    "coordinates": {
+      "latitude": [
+        0.1111,
+        -1.2222,
+        3.33333
+      ],
+      "longitude": [
+        1,
+        2.191919,
+        -3.3333
+      ]
+    },
+    "users": {
+      "names": [
+        "Sergey",
+        "Lenny",
+        "Eren",
+        "Skubydubydu"
+      ],
+      "avatars": [
+        "avatar1.jpg",
+        "avatar2.jpg",
+        "avatar3.jpg",
+        "avatar4.jpg"
+      ],
+      "emails": [
+        "first@mail.ru",
+        "second@mail.ru",
+        "third@mail.ru",
+        "fourth@mail.ru"
+      ],
+      "passwords": [
+        "WhereIs",
+        "MyMoney",
+        "lolololol",
+        "AllStars",
+        "Somebody"
+      ]
+    }
+  }
+}

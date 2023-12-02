@@ -1,25 +1,26 @@
-import { City } from './city.type';
-import { Coordinates } from './coordinates.type';
-import { Facility } from './facility.type';
-import { Housing } from './housing.type';
+import { User } from './user.type.js';
+import { City } from './city.type.js';
+import { Housing } from './housing.type.js';
+import { Facility } from './facility.type.js';
+import { Coordinates } from './coordinates.type.js';
+
 
 export type Offer = {
-  title: string,
-  description: string,
-  publishDate: Date,
-  city: City,
-  previewImage: string,
-  images: string[],
-  isPremium: boolean,
-  isFavourite: boolean,
-  rating: number,
-  housingType: Housing,
-  roomsNumber: number,
-  guestsNumber: number,
-  price: number,
-  facilities: Facility[],
-  authorId: string,
-  commentsIds: string[],
-  commentsNumber: number,
-  coordinates: Coordinates
+  name: string;
+  description: string;
+  publicationDate: Date;
+  city: City;
+  previewImage: string;
+  images: string[];
+  premium: boolean;
+  favorite: boolean;
+  rating: number;
+  housingType: Housing;
+  roomCount: number;
+  guestCount: number;
+  cost: number;
+  facilities: Facility[];
+  author: User;
+  commentsCount: number;
+  coordinates: Coordinates;
 }

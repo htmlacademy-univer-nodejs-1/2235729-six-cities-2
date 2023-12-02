@@ -1,17 +1,15 @@
 import 'reflect-metadata';
-import { Logger } from './core/logger/logger.js';
-import { LoggerType } from './core/logger/logger.type.js';
+import { Container } from 'inversify';
 import { Component } from './types/component.type.js';
 import Application from './app/application.js';
-import { ConfigType, ConfigSchema } from './config/config.type';
-import { Config } from './config/config.js';
-import { Container } from 'inversify';
+import { createUserContainer } from './modules/user/user.container.js';
+import { createApplicationContainer } from './app/api.container.js';
+import { createOfferContainer } from './modules/offer/offer.contatiner.js';
 
 
-const container = new Container();
-container.bind<Application>(Component.Application).to(Application).inSingletonScope();
-container.bind<LoggerType>(Component.Logger).to(Logger).inSingletonScope();
-container.bind<ConfigType<ConfigSchema>>(Component.Config).to(Config).inSingletonScope();
+const mainContainer = Container.merge(createApplicationContainer(),
+  createUserContainer(),
+  createOfferContainer());
+const application = mainContainer.get<Application>(Component.Application);
 
-const application = container.get<Application>(Component.Application);
 await application.init();

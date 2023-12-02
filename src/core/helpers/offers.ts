@@ -1,53 +1,55 @@
 import { Offer } from '../../types/offer.type.js';
 import { City } from '../../types/city.type.js';
-import { Coordinates } from '../../types/coordinates.type.js';
 import { Housing } from '../../types/housing.type.js';
 import { Facility } from '../../types/facility.type.js';
+import { UserType } from '../../types/user.type.js';
 
-export function createOffer(offerData: string): Offer {
-  const [
-    title,
+export function createOffer(offer: string): Offer {
+  const offerRow = offer.replace('\n', '').split('\t');
+  const [name,
     description,
-    publishDate,
+    publicationDate,
     city,
     previewImage,
     images,
-    isPremium,
-    isFavourite,
+    premium,
+    favorite,
     rating,
     housingType,
-    roomsNumber,
-    guestsNumber,
-    price,
+    roomCount,
+    guestCount,
+    cost,
     facilities,
-    authorId,
-    commentsIds,
-    coordinates
-  ] = offerData.replace('\n', '').split('\t');
-
-  const commentsIdsParsed = commentsIds.split(';').filter((comment) => comment.length > 0);
-  const stringToBoolean = (s: string): boolean => s === 'true';
-  const coordinatesArray = coordinates.split(';').map((coordinate) => parseFloat(coordinate));
-  const coordinatesParsed: Coordinates = { latitude: coordinatesArray[0], longitude: coordinatesArray[1] };
+    offerAuthorName,
+    offerAuthorAvatar,
+    offerAuthorType,
+    offerAuthorEmail,
+    commentsCount,
+    latitude,
+    longitude] = offerRow;
 
   return {
-    title,
-    description,
-    publishDate: new Date(publishDate),
-    city: city as City,
-    previewImage,
-    images:  images.split(';'),
-    isPremium: stringToBoolean(isPremium),
-    isFavourite: stringToBoolean(isFavourite),
+    name: name,
+    description: description,
+    publicationDate: new Date(publicationDate),
+    city: city as unknown as City,
+    previewImage: previewImage,
+    images: images.split(','),
+    premium: premium as unknown as boolean,
+    favorite: favorite as unknown as boolean,
     rating: parseFloat(rating),
-    housingType: Housing[housingType as keyof typeof Housing],
-    roomsNumber: parseInt(roomsNumber, 10),
-    guestsNumber: parseInt(guestsNumber, 10),
-    price: parseFloat(price),
-    facilities: facilities.split(';').map((facility) => Facility[facility as keyof typeof Facility]),
-    authorId,
-    commentsIds: commentsIdsParsed,
-    commentsNumber: commentsIdsParsed.length,
-    coordinates: coordinatesParsed
-  } as Offer;
+    housingType: housingType as unknown as Housing,
+    roomCount: parseInt(roomCount, 10),
+    guestCount: parseInt(guestCount, 10),
+    cost: parseInt(cost, 10),
+    facilities: facilities.split(',').map((x) => x as unknown as Facility),
+    author: {
+      name: offerAuthorName,
+      avatarPath: offerAuthorAvatar,
+      type: offerAuthorType as unknown as UserType,
+      email: offerAuthorEmail,
+    },
+    commentsCount: parseInt(commentsCount, 10),
+    coordinates: { latitude: parseFloat(latitude), longitude: parseFloat(longitude) }
+  };
 }

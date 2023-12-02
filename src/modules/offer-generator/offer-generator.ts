@@ -13,7 +13,7 @@ function generateRandomValue(min: number, max: number) {
 
 function getRandomItems(items: unknown[]) {
   const from = generateRandomValue(0, items.length - 1);
-  const to = from + generateRandomValue(from, items.length);
+  const to = from + 1 + generateRandomValue(from, items.length);
   return items.slice(from, to);
 }
 
@@ -44,7 +44,6 @@ export default class OfferGenerator implements OfferGeneratorInterface {
     const offerAuthorAvatar = getRandomItem(this.mockData.users.avatars);
     const offerAuthorType = getRandomItem([UserType.Pro, UserType.Usual]);
     const offerAuthorNameEmail = getRandomItem(this.mockData.users.emails);
-    const offerAuthorNamePassword = getRandomItem(this.mockData.users.passwords);
     const commentsCount = generateRandomValue(1, 10000);
     const cityCoordinates = CityCoordinates[city as City];
     const latitude = cityCoordinates.latitude + Number(getRandomItem(this.mockData.coordinates.latitude));
@@ -56,7 +55,7 @@ export default class OfferGenerator implements OfferGeneratorInterface {
       favorite, rating, housingType, roomCount,
       guestCount, cost, facilities, offerAuthorName,
       offerAuthorAvatar, offerAuthorType, offerAuthorNameEmail,
-      offerAuthorNamePassword, commentsCount, latitude, longitude
+      commentsCount, latitude, longitude
     ].join('\t');
   }
 }

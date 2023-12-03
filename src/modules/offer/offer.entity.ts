@@ -24,7 +24,9 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   })
   public city!: City;
 
-  @prop({ default: 0 })
+  @prop({
+    default: 0
+  })
   public commentsCount!: number;
 
   @prop({
@@ -48,11 +50,15 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   })
   public facilities!: Facility[];
 
-  @prop({ required: true, default: false })
+  @prop({
+    required: true,
+    default: false
+  })
   public favorite!: boolean;
 
   @prop({
-    required: true, min: [1, 'Min count of guests is 1'],
+    required: true,
+    min: [1, 'Min count of guests is 1'],
     max: [10, 'Max count of guests is 10']
   })
   public guestCount!: number;
@@ -65,9 +71,9 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   public housingType!: Housing;
 
   @prop({
-    type: Array<string>, minCount: [6, 'Count of images should be 6'],
-    maxCount: [6, 'Count of images should be 6'],
-    allowMixed: Severity.ALLOW
+    type: () => String,
+    minCount: [6, 'Images should be 6'],
+    maxCount: [6, 'Images should be 6']
   })
   public images!: string[];
 
@@ -84,23 +90,33 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   })
   public userId!: Ref<UserEntity>;
 
-  @prop({ required: true, default: false })
+  @prop({
+    required: true,
+    default: false
+  })
   public premium!: boolean;
 
-  @prop({ required: true, match: [/.*\.(?:jpg|png)/, 'Image must be jpg or png'] })
+  @prop({
+    required: true,
+    match: [/.*\.(?:jpg|png)/, 'Image must be jpg or png']
+  })
   public previewImage!: string;
 
-  @prop({ required: true })
+  @prop({
+    required: true
+  })
   public publicationDate!: Date;
 
   @prop({
-    required: true, min: [1, 'Min rating is 1'],
+    required: true,
+    min: [1, 'Min rating is 1'],
     max: [5, 'Max rating is 5']
   })
   public rating!: number;
 
   @prop({
-    required: true, min: [1, 'Min room count is 1'],
+    required: true,
+    min: [1, 'Min room count is 1'],
     max: [8, 'Max room count is 8']
   })
   public roomCount!: number;

@@ -6,6 +6,7 @@ import { inject, injectable } from 'inversify';
 import { Component } from '../../types/component.type.js';
 import { LoggerType } from '../../core/logger/logger.type.js';
 import { types } from '@typegoose/typegoose';
+import { OfferEntity } from '../offer/offer.entity';
 
 @injectable()
 export default class UserService implements UserServiceInterface {
@@ -13,7 +14,16 @@ export default class UserService implements UserServiceInterface {
   constructor(
     @inject(Component.Logger) private readonly logger: LoggerType,
     @inject(Component.UserModel) private readonly userModel: types.ModelType<UserEntity>
-  ) {
+  ) { }
+
+  public async findFavorites(userId: string): Promise<DocumentType<OfferEntity>[]> {
+    const offers = await this.userModel.findById(userId).select('favorite');
+    if (!offers) {
+      return [];
+    }
+
+    return this.userModel
+      .find({ _id: { $in: offers.favorite } });
   }
 
   public async create(dto: CreateUserDto, salt: string): Promise<DocumentType<UserEntity>> {
@@ -28,6 +38,18 @@ export default class UserService implements UserServiceInterface {
 
   public async findByEmail(email: string): Promise<DocumentType<UserEntity> | null> {
     return this.userModel.findOne({ email });
+  }
+
+  public async findById(userId: string): Promise<DocumentType<UserEntity> | null> {
+    return this.userModel.findOne({ '_id': userId });
+  }
+
+  public async addToFavoritesById(userId: string, offerId: string): Promise<DocumentType<OfferEntity>[] | null> {
+    return this.userModel.findByIdAndUpdate(userId, { $push: { favorite: offerId }, new: true });
+  }
+
+  public async removeFromFavoritesById(userId: string, offerId: string): Promise<DocumentType<OfferEntity>[] | null> {
+    return this.userModel.findByIdAndUpdate(userId, { $pull: { favorite: offerId }, new: true });
   }
 
   public async findOrCreate(dto: CreateUserDto, salt: string): Promise<DocumentType<UserEntity>> {

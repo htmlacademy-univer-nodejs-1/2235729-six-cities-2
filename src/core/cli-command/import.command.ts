@@ -16,14 +16,12 @@ import { Offer } from '../../types/offer.type';
 import { MongoClientService } from '../database-client/mongo-client.service.js';
 import { DatabaseClient } from '../database-client/database-client.type';
 import { DEFAULT_USER_PASSWORD, DEFAULT_DB_PORT } from '../../constants/database.js';
-import { CommentService } from '../../modules/comment/comment.service';
 
 export default class ImportCommand implements CliCommandInterface {
   public readonly name = Command.Import;
   private userService!: UserServiceInterface;
   private offerService!: OfferServiceInterface;
   private databaseService!: DatabaseClient;
-  private commentService!: CommentService;
   private readonly logger: LoggerType;
   private salt!: string;
 
@@ -52,7 +50,7 @@ export default class ImportCommand implements CliCommandInterface {
 
   constructor() {
     this.logger = new ConsoleLoggerService();
-    this.offerService = new OfferService(this.logger, OfferModel, this.commentService);
+    this.offerService = new OfferService(this.logger, OfferModel);
     this.userService = new UserService(this.logger, UserModel);
     this.databaseService = new MongoClientService(this.logger);
   }

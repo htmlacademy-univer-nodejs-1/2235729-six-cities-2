@@ -1,7 +1,7 @@
-import { City } from '../../../types/city.type';
-import { Housing } from '../../../types/housing.type';
-import { Facility } from '../../../types/facility.type';
-import { Coordinates } from '../../../types/coordinates.type';
+import { City } from '../../../types/city.type.js';
+import { Housing } from '../../../types/housing.type.js';
+import { Facility } from '../../../types/facility.type.js';
+import { Coordinates } from '../../../types/coordinates.type.js';
 
 export default class CreateOfferDto {
   public name!: string;

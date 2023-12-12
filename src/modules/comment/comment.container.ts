@@ -2,7 +2,7 @@ import { Container } from 'inversify';
 import { types } from '@typegoose/typegoose';
 import { CommentEntity, CommentModel } from './comment.entity.js';
 import { CommentServiceType } from './comment-service.type.js';
-import CommentService from './comment.service.js';
+import { CommentService } from './comment.service.js';
 import { Component } from '../../types/component.type.js';
 
 export function createCommentContainer() {

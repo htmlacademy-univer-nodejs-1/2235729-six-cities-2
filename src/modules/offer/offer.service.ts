@@ -5,7 +5,6 @@ import { OfferEntity } from './offer.entity.js';
 import { OfferServiceInterface } from './offer-service.interface.js';
 import { Component } from '../../types/component.type.js';
 import { LoggerType } from '../../core/logger/logger.type';
-import { CommentService } from '../comment/comment.service';
 import { Sort } from '../../types/sort.type';
 import { UpdateOfferDto } from './dto/update-offer.dto';
 import { MAX_OFFERS_COUNT, MAX_PREMIUM_OFFERS_COUNT } from '../../constants/offer.js';
@@ -15,7 +14,6 @@ export default class OfferService implements OfferServiceInterface {
   constructor(
     @inject(Component.Logger) private readonly logger: LoggerType,
     @inject(Component.OfferModel) private readonly offerModel: types.ModelType<OfferEntity>,
-    @inject(Component.CommentService) private readonly commentService: CommentService
   ) { }
 
   public async create(dto: CreateOfferDto): Promise<DocumentType<OfferEntity>> {
@@ -26,13 +24,12 @@ export default class OfferService implements OfferServiceInterface {
   }
 
   public async deleteById(offerId: string): Promise<DocumentType<OfferEntity> | null> {
-    await this.commentService.deleteByOfferId(offerId);
     return this.offerModel
       .findByIdAndDelete(offerId)
       .exec();
   }
 
-  public async find(count: number): Promise<DocumentType<OfferEntity>[]> {
+  public async find(count: number | undefined): Promise<DocumentType<OfferEntity>[]> {
     const limit = count ?? MAX_OFFERS_COUNT;
     return this.offerModel
       .find()

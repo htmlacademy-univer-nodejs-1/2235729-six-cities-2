@@ -1,11 +1,11 @@
 import { inject, injectable } from 'inversify';
 import { DocumentType, types } from '@typegoose/typegoose';
 import { CommentServiceType } from './comment-service.type.js';
-import { Component } from '../../types/component.type';
-import { CommentEntity } from './comment.entity';
-import { CreateCommentDto } from './dto/create-comment.dto';
+import { Component } from '../../types/component.type.js';
+import { CommentEntity } from './comment.entity.js';
+import { CreateCommentDto } from './dto/create-comment.dto.js';
 import { OfferServiceInterface } from '../offer/offer-service.interface.js';
-import { Sort } from '../../types/sort.type';
+import { Sort } from '../../types/sort.type.js';
 
 const COMMENTS_COUNT = 50;
 @injectable()

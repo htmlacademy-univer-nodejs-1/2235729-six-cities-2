@@ -1,20 +1,20 @@
+import chalk from 'chalk';
 import { TSVFileReader } from '../file-reader/tsv-file-reader.js';
-import { CliCommandInterface } from './cli-command.interface';
+import { CliCommandInterface } from './cli-command.interface.js';
 import { Command } from './command.js';
 import { getErrorMessage, getConnectionString } from '../helpers/common.js';
 import { createOffer } from '../helpers/offers.js';
-import chalk from 'chalk';
 import { UserServiceInterface } from '../../modules/user/user-service.interface.js';
 import { OfferServiceInterface } from '../../modules/offer/offer-service.interface.js';
-import { LoggerType } from '../logger/logger.type';
+import { LoggerType } from '../logger/logger.type.js';
 import { ConsoleLoggerService } from '../logger/console.logger.service.js';
-import OfferService from '../../modules/offer/offer.service.js';
+import { OfferService } from '../../modules/offer/offer.service.js';
 import { OfferModel } from '../../modules/offer/offer.entity.js';
 import UserService from '../../modules/user/user.service.js';
 import { UserModel } from '../../modules/user/user.entity.js';
-import { Offer } from '../../types/offer.type';
+import { Offer } from '../../types/offer.type.js';
 import { MongoClientService } from '../database-client/mongo-client.service.js';
-import { DatabaseClient } from '../database-client/database-client.type';
+import { DatabaseClient } from '../database-client/database-client.type.js';
 import { DEFAULT_USER_PASSWORD, DEFAULT_DB_PORT } from '../../constants/database.js';
 
 export default class ImportCommand implements CliCommandInterface {
@@ -63,7 +63,7 @@ export default class ImportCommand implements CliCommandInterface {
 
     await this.offerService.create({
       ...offer,
-      userId: user.id,
+      user,
     });
   }
 

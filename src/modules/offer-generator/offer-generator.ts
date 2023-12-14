@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { MockData } from '../../types/mock-data.type.js';
 import { OfferGeneratorInterface } from './offer-generator.interface.js';
 import { City } from '../../types/city.type.js';
@@ -5,7 +6,6 @@ import { Housing } from '../../types/housing.type.js';
 import { UserType } from '../../types/user.type.js';
 import { CityCoordinates } from '../../data/city.js';
 import { Facility } from '../../types/facility.type.js';
-import dayjs from 'dayjs';
 
 function generateRandomValue(min: number, max: number) {
   return Math.floor(Math.random() * (max + 1 - min) + min);

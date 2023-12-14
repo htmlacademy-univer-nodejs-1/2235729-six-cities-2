@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { inject, injectable } from 'inversify';
 import { StatusCodes } from 'http-status-codes';
 import { Component } from '../../types/component.type.js';
-import { LoggerType } from '../logger/logger.type';
+import { LoggerType } from '../logger/logger.type.js';
 import { HttpError } from './http-error.type.js';
 import { ExceptionFilter } from './exception-filter.type.js';
 import { createErrorObject } from '../helpers/common.js';

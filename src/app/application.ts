@@ -6,8 +6,9 @@ import { Component } from '../types/component.type.js';
 import { ConfigType, ConfigSchema } from '../config/config.type.js';
 import { DatabaseClient } from '../core/database-client/database-client.type.js';
 import { getConnectionString } from '../core/helpers/common.js';
-import { ControllerType } from '../core/controller/controller.type';
-import { ExceptionFilter } from '../core/http/exception-filter.type';
+import { ControllerType } from '../core/controller/controller.type.js';
+import { ExceptionFilter } from '../core/http/exception-filter.type.js';
+import { Controller } from '../core/controller/controller.js';
 
 @injectable()
 export default class Application {
@@ -19,6 +20,7 @@ export default class Application {
     @inject(Component.OfferController) private readonly offerController: ControllerType,
     @inject(Component.UserController) private userController: ControllerType,
     @inject(Component.ExceptionFilter) private readonly appExceptionFilter: ExceptionFilter,
+    @inject(Component.CommentController) private readonly commentController: Controller,
   ) {
     this.expressApplication = express();
   }
@@ -40,6 +42,7 @@ export default class Application {
     this.logger.info('Контроллеры инициализируются');
     this.expressApplication.use('/offers', this.offerController.router);
     this.expressApplication.use('/users', this.userController.router);
+    this.expressApplication.use('/comments', this.commentController.router);
     this.logger.info('Контроллеры успешно инициализированы');
   }
 

@@ -1,6 +1,6 @@
-import { LoggerType } from './logger.type';
 import { Logger as PinoLogger, pino } from 'pino';
 import { injectable } from 'inversify';
+import { LoggerType } from './logger.type.js';
 
 @injectable()
 export class Logger implements LoggerType {

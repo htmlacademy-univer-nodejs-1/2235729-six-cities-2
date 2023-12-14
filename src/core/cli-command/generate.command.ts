@@ -1,11 +1,11 @@
+import got from 'got';
 import { CliCommandInterface } from './cli-command.interface.js';
 import { MockData } from '../../types/mock-data.type.js';
-import got from 'got';
 import OfferGenerator from '../../modules/offer-generator/offer-generator.js';
 import { TSVFileWriter } from '../file-writer/tsv-file-writer.js';
-import { Command } from './command.js';
 import { ConsoleLoggerService } from '../logger/console.logger.service.js';
 import { LoggerType } from '../logger/logger.type';
+import { Command } from './command.js';
 
 export default class GenerateCommand implements CliCommandInterface {
   public readonly name = Command.Generate;

@@ -1,16 +1,16 @@
 import { inject, injectable } from 'inversify';
-import CreateOfferDto from './dto/create-offer.dto.js';
 import { DocumentType, types } from '@typegoose/typegoose';
+import { CreateOfferDto } from './dto/create-offer.dto.js';
 import { OfferEntity } from './offer.entity.js';
 import { OfferServiceInterface } from './offer-service.interface.js';
 import { Component } from '../../types/component.type.js';
-import { LoggerType } from '../../core/logger/logger.type';
-import { Sort } from '../../types/sort.type';
-import { UpdateOfferDto } from './dto/update-offer.dto';
+import { LoggerType } from '../../core/logger/logger.type.js';
+import { Sort } from '../../types/sort.type.js';
+import { UpdateOfferDto } from './dto/update-offer.dto.js';
 import { MAX_OFFERS_COUNT, MAX_PREMIUM_OFFERS_COUNT } from '../../constants/offer.js';
 
 @injectable()
-export default class OfferService implements OfferServiceInterface {
+export class OfferService implements OfferServiceInterface {
   constructor(
     @inject(Component.Logger) private readonly logger: LoggerType,
     @inject(Component.OfferModel) private readonly offerModel: types.ModelType<OfferEntity>,

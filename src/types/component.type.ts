@@ -12,4 +12,5 @@ export enum Component {
   CommentService = 'CommentService',
   CommentModel = 'CommentModel',
   ExceptionFilter = 'ExceptionFilter',
+  CommentController = 'CommentController',
 }

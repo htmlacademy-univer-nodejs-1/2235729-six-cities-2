@@ -1,4 +1,4 @@
-import { LoggerType } from './logger.type';
+import { LoggerType } from './logger.type.js';
 
 export class ConsoleLoggerService implements LoggerType {
   public debug(message: string, ...args: unknown[]): void {

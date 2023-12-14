@@ -1,19 +1,19 @@
 import { inject, injectable } from 'inversify';
 import { Request, Response } from 'express';
+import { StatusCodes } from 'http-status-codes';
 import { Component } from '../../types/component.type.js';
 import { Controller } from '../../core/controller/controller.js';
-import { LoggerType } from '../../core/logger/logger.type';
-import { HttpMethod } from '../../types/http-method.type';
+import { LoggerType } from '../../core/logger/logger.type.js';
+import { HttpMethod } from '../../types/http-method.type.js';
 import { fillDTO } from '../../core/helpers/common.js';
 import { UserServiceInterface } from './user-service.interface.js';
 import CreateUserDto from './dto/create-user.dto.js';
-import { HttpError } from '../../core/http/http-error.type';
-import { StatusCodes } from 'http-status-codes';
-import { ConfigType } from '../../config/config.type';
-import { ConfigSchema } from '../../config/config.type';
-import UserRdo from './rdo/user.rdo.js';
-import LoginUserDto from './dto/login-user.dto';
-import { FullOfferRdo } from '../offer/rdo/fullOrder.rdo';
+import { HttpError } from '../../core/http/http-error.type.js';
+import { ConfigType } from '../../config/config.type.js';
+import { ConfigSchema } from '../../config/config.type.js';
+import { UserRdo } from './rdo/user.rdo.js';
+import { LoginUserDto } from './dto/login-user.dto.js';
+import { FullOfferRdo } from '../offer/rdo/full-offer.rdo.js';
 
 
 @injectable()

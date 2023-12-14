@@ -12,6 +12,7 @@ export interface UserEntity extends defaultClasses.Base {
     collection: 'users'
   }
 })
+
 export class UserEntity extends defaultClasses.TimeStamps implements User {
   @prop({ unique: true, required: true, match: [/^.+@.+$/, 'Email is incorrect'] })
   public email: string;
@@ -31,7 +32,7 @@ export class UserEntity extends defaultClasses.TimeStamps implements User {
     type: () => String,
     enum: UserType
   })
-  public type: UserType;
+  public userType: UserType;
 
   @prop({
     required: true,
@@ -53,7 +54,7 @@ export class UserEntity extends defaultClasses.TimeStamps implements User {
     this.email = userData.email;
     this.avatarPath = userData.avatarPath;
     this.name = userData.name;
-    this.type = userData.type;
+    this.userType = userData.userType;
   }
 
   public setPassword(password: string, salt: string) {

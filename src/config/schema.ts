@@ -1,6 +1,6 @@
 import convict from 'convict';
 import validator from 'convict-format-with-validator';
-import { ConfigSchema } from './config.type';
+import { ConfigSchema } from './config.type.js';
 
 convict.addFormats(validator);
 

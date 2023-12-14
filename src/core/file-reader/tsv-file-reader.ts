@@ -1,6 +1,6 @@
-import { FileReaderInterface } from './file-reader.interface.js';
 import EventEmitter from 'node:events';
 import { createReadStream } from 'node:fs';
+import { FileReaderInterface } from './file-reader.interface.js';
 import { READER_CHUNK_SIZE } from '../../constants/files.js';
 
 

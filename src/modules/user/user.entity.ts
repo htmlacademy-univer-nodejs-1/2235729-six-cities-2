@@ -18,7 +18,7 @@ export class UserEntity extends defaultClasses.TimeStamps implements User {
   public email: string;
 
   @prop({ required: false, default: '', match: [/.*\.(?:jpg|png)/, 'AvatarPath must be jpg or png'] })
-  public avatarPath?: string;
+  public avatar?: string;
 
   @prop({
     required: true,
@@ -52,7 +52,7 @@ export class UserEntity extends defaultClasses.TimeStamps implements User {
     super();
 
     this.email = userData.email;
-    this.avatarPath = userData.avatarPath;
+    this.avatar = userData.avatar;
     this.name = userData.name;
     this.userType = userData.userType;
   }

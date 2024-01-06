@@ -45,4 +45,8 @@ export class CommentService implements CommentServiceType {
 
     return result.deletedCount;
   }
+
+  public async exists(offerId: string): Promise<boolean> {
+    return (await this.commentModel.exists({ _id: offerId })) !== null;
+  }
 }

@@ -14,24 +14,66 @@ import { ConfigSchema } from '../../config/config.type.js';
 import { UserRdo } from './rdo/user.rdo.js';
 import { LoginUserDto } from './dto/login-user.dto.js';
 import { FullOfferRdo } from '../offer/rdo/full-offer.rdo.js';
-
+import { UploadFileMiddleware } from '../../core/middleware/upload-file.middleware.js';
+import { ValidateObjectIdMiddleware } from '../../core/middleware/validate-objectId.middleware.js';
+import { ValidateDtoMiddleware } from '../../core/middleware/validate-dto.middleware.js';
 
 @injectable()
 export default class UserController extends Controller {
-  constructor(@inject(Component.Logger) logger: LoggerType,
-              @inject(Component.OfferService) private readonly userService: UserServiceInterface,
-              @inject(Component.Config) private readonly configService: ConfigType<ConfigSchema>
+  constructor(
+    @inject(Component.Logger) logger: LoggerType,
+    @inject(Component.UserService) private readonly userService: UserServiceInterface,
+    @inject(Component.Config) private readonly configService: ConfigType<ConfigSchema>,
   ) {
     super(logger);
 
-    this.logger.info('Register routes for CategoryController…');
+    this.logger.info('Register routes for UserController…');
 
-    this.addRoute({ path: '/register', method: HttpMethod.Get, handler: this.register });
-    this.addRoute({ path: '/login', method: HttpMethod.Post, handler: this.login });
-    this.addRoute({ path: '/logout', method: HttpMethod.Post, handler: this.logout });
-    this.addRoute({ path: '/favorite/:offerId', method: HttpMethod.Post, handler: this.addFavorite });
-    this.addRoute({ path: '/favorite/:offerId', method: HttpMethod.Delete, handler: this.deleteFavorite });
-    this.addRoute({ path: '/favorite', method: HttpMethod.Get, handler: this.getFavorite });
+    this.addRoute({
+      path: '/register',
+      method: HttpMethod.Post,
+      handler: this.register,
+      middlewares: [
+        new ValidateDtoMiddleware(CreateUserDto)
+      ],
+    });
+    this.addRoute({
+      path: '/login',
+      method: HttpMethod.Post,
+      handler: this.login,
+      middlewares: [
+        new ValidateDtoMiddleware(LoginUserDto)
+      ],
+    });
+    this.addRoute({
+      path: '/logout',
+      method: HttpMethod.Post,
+      handler: this.logout,
+    });
+    this.addRoute({
+      path: '/favorite/:offerId',
+      method: HttpMethod.Post,
+      handler: this.addFavorite,
+    });
+    this.addRoute({
+      path: '/favorite/:offerId',
+      method: HttpMethod.Delete,
+      handler: this.deleteFavorite,
+    });
+    this.addRoute({
+      path: '/favorite',
+      method: HttpMethod.Get,
+      handler: this.getFavorite,
+    });
+    this.addRoute({
+      path: '/:userId/avatar',
+      method: HttpMethod.Post,
+      handler: this.uploadAvatar,
+      middlewares: [
+        new ValidateObjectIdMiddleware('userId'),
+        new UploadFileMiddleware(this.configService.get('UPLOAD_DIRECTORY'), 'avatar')
+      ],
+    });
   }
 
   public async register(
@@ -57,7 +99,7 @@ export default class UserController extends Controller {
   ): Promise<void> {
     const existsUser = await this.userService.findByEmail(body.email);
 
-    if (! existsUser) {
+    if (!existsUser) {
       throw new HttpError(
         StatusCodes.UNAUTHORIZED,
         `User with email ${body.email} not found.`,
@@ -93,5 +135,11 @@ export default class UserController extends Controller {
   public async deleteFavorite({ body }: Request<Record<string, unknown>, Record<string, unknown>, {offerId: string, userId: string}>, res: Response): Promise<void> {
     await this.userService.removeFromFavoritesById(body.offerId, body.userId);
     this.noContent(res, { message: 'Предложение удалено из избранного' });
+  }
+
+  public async uploadAvatar(req: Request, res: Response) {
+    this.created(res, {
+      avatarSourcePath: req.file?.path
+    });
   }
 }

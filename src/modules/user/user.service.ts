@@ -61,4 +61,8 @@ export default class UserService implements UserServiceInterface {
 
     return this.create(dto, salt);
   }
+
+  public async exists(id: string): Promise <boolean> {
+    return (await this.userModel.exists({ _id: id })) !== null;
+  }
 }

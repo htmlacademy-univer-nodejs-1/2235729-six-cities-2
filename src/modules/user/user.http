@@ -1,0 +1,44 @@
+## Отправить изображение
+
+POST http://localhost:228/users/548c134051a4f1ac5eee5021/avatar HTTP/1.1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="avatar"; filename="screen.png"
+Content-Type: image/png
+
+< /Users/iakimovnutria/Desktop/nodehtml/test.png
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+###
+
+## Создать пользователя
+POST http://localhost:228/users/register HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "test@test.test",
+  "name": "Test",
+  "userType": "Usual",
+  "password": "testtest"
+}
+
+###
+
+## Логин пользователя
+
+POST http://localhost:228/users/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "test@test.test",
+  "password": "testtest"
+}
+
+###
+
+###
+
+## Проверить токен пользователя
+GET http://localhost:228/users/login HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRlc3RhdmF2dGFyOTJAeWFuZGV4LnJ1IiwiZmlyc3RuYW1lIjoiSWx5YSIsImlkIjoiNjU5NTU1MDYwOWQyZGM0OGY1OTUzMWRjIiwiaWF0IjoxNzA0Mjg1NzI1LCJleHAiOjE3MDQ0NTg1MjV9.MaA-axf-ptdl2r-MeOxf3W2Ni-XYbuWnBqpSbdT3rRU

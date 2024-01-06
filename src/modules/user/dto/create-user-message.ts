@@ -2,11 +2,11 @@ export const CreateUserMessage = {
   email: {
     invalidFormat: 'email must be a valid address'
   },
-  avatarPath: {
-    invalidFormat: 'avatarPath is required',
+  avatar: {
+    invalidFormat: 'avatar is required',
   },
   name: {
-    invalidFormat: 'firstname is required',
+    invalidFormat: 'name is required',
     lengthField: 'min length is 1, max is 15',
   },
   password: {

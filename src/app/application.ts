@@ -26,7 +26,15 @@ export default class Application {
   }
 
   private async _initMiddleware() {
+    this.logger.info('Мидлвары инициализируется');
+
     this.expressApplication.use(express.json());
+    this.expressApplication.use(
+      '/upload',
+      express.static(this.settings.get('UPLOAD_DIRECTORY'))
+    );
+
+    this.logger.info('Мидлвары успешно инициализированы');
   }
 
   private async _initServer() {
@@ -65,8 +73,8 @@ export default class Application {
 
     await this.databaseClient.connect(mongoUri);
     this.logger.info('База данных инициализирована');
-    await this._initRoutes();
     await this._initMiddleware();
+    await this._initRoutes();
     await this._initExceptionFilters();
     await this._initServer();
   }

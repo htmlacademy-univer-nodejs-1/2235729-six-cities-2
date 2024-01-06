@@ -8,10 +8,12 @@ import { createOfferContainer } from './modules/offer/offer.contatiner.js';
 import { createCommentContainer } from './modules/comment/comment.container.js';
 
 
-const mainContainer = Container.merge(createApplicationContainer(),
+const mainContainer = Container.merge(
+  createApplicationContainer(),
   createUserContainer(),
   createOfferContainer(),
-  createCommentContainer());
+  createCommentContainer()
+);
 const application = mainContainer.get<Application>(Component.Application);
 
 await application.init();
